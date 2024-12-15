@@ -11,9 +11,6 @@ require("plugins")
 -- Load Keymaps
 require("keymaps")
 
--- Load Dynamic Python Provider
-require("python_provider")
-
 -- Load LSP Setup (Lua Language Server Fix)
 require("lspsetup")
 
