@@ -1,6 +1,9 @@
+local M = {}
+
+
 -- Function to set Python provider dynamically
 
-local function set_python_host_prog()
+function M.set_python_host_prog()
   local cwd = vim.fn.getcwd() -- Get the current working directory
 
   -- Helper function to check and set the Python path
@@ -54,30 +57,19 @@ local function set_python_host_prog()
     return false
   end
 
-  -- Check for Python project markers
-  local function is_python_project()
-    local project_markers = { "requirements.txt", "pyproject.toml", "setup.py", "Pipfile" }
-    for _, marker in ipairs(project_markers) do
-      if vim.loop.fs_stat(cwd .. "/" .. marker) then
-        return true
-      end
-    end
-    return detect_virtual_env() -- Check dynamically for any virtual environment
-  end
 
   -- Try to set the Python provider
-  if is_python_project() then
     if not detect_virtual_env() then
       local system_python = find_valid_system_python()
       if system_python then
         set_python_path(system_python)
       end
     end
+
     -- Show final Python provider asynchronously
     vim.schedule(function()
       vim.notify("Python provider: " .. (vim.g.python3_host_prog or "None"), vim.log.levels.INFO)
     end)
-  end
 end
 
-set_python_host_prog()
+return M
