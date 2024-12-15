@@ -36,3 +36,27 @@ vim.api.nvim_create_autocmd({ "InsertLeave" }, {
     vim.opt.number = true         -- Keep absolute numbers
   end,
 })
+
+
+local python_provider = require("python_provider")
+
+-- Set up Python provider dynamically based on project type or file type
+vim.api.nvim_create_autocmd({ "VimEnter", "BufReadPre" }, {
+  pattern = { "*.py", "*" }, -- Trigger for Python files and directories
+  callback = function()
+    local cwd = vim.fn.getcwd()
+    local files = vim.fn.glob(cwd .. "/*", true, true)
+    -- Check if the directory contains Python project indicators or files
+    local is_python_project = false
+    for _, file in ipairs(files) do
+      if file:match("%.py$") or file:match("requirements%.txt$") or file:match("pyproject%.toml$") or file:match("setup%.py$") or file:match("Pipfile$") then
+        is_python_project = true
+        break
+      end
+    end
+    -- If any Python files or indicators are found, set the Python host program
+    if is_python_project or vim.fn.expand("%:e") == "py" then
+      python_provider.set_python_host_prog()
+    end
+  end,
+})
