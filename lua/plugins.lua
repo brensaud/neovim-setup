@@ -22,8 +22,8 @@ local plugins = {
     config = function()
       require("nvim-treesitter.configs").setup({
         -- Ensure these languages are always installed
-        ensure_installed = { 
-          "python", "lua", "javascript", "typescript", 
+        ensure_installed = {
+          "python", "lua", "javascript", "typescript",
           "bash", "vim", "markdown", "html", "css", "json"
         },
         -- Always sync install to ensure languages are ready
@@ -54,7 +54,7 @@ local plugins = {
       })
 
       -- Use GCC from MSYS2 for Treesitter compilation
-      require("nvim-treesitter.install").compilers = { "gcc" }
+      require("nvim-treesitter.install").compilers = { "clang", "gcc" }
     end,
   },
 
@@ -72,7 +72,7 @@ local plugins = {
       require("mason-lspconfig").setup({
         automatic_installation = true,
         ensure_installed = {
-          "pyright", "lua_ls", "bashls", 
+          "pyright", "lua_ls", "bashls",
           "jsonls", "html", "cssls"
         },
       })
@@ -87,9 +87,9 @@ local plugins = {
           Lua = {
             runtime = { version = "LuaJIT" },
             diagnostics = { globals = { "vim" } },
-            workspace = { 
+            workspace = {
               library = vim.api.nvim_get_runtime_file("", true),
-              checkThirdParty = false 
+              checkThirdParty = false
             },
             telemetry = { enable = false },
           },
@@ -126,9 +126,9 @@ local plugins = {
           ["<C-f>"] = cmp.mapping.scroll_docs(4),
           ["<C-Space>"] = cmp.mapping.complete(),
           ["<C-e>"] = cmp.mapping.abort(),
-          ["<CR>"] = cmp.mapping.confirm({ 
+          ["<CR>"] = cmp.mapping.confirm({
             select = true,
-            behavior = cmp.ConfirmBehavior.Replace 
+            behavior = cmp.ConfirmBehavior.Replace
           }),
           ["<Tab>"] = cmp.mapping(function(fallback)
             if cmp.visible() then
@@ -174,7 +174,7 @@ local plugins = {
         statementStyle = { bold = true },
         transparent = false,
         variablebuiltinStyle = { italic = true },
-        specialReturn = true, -- Special highlight for `return`
+        specialReturn = true,    -- Special highlight for `return`
         specialException = true, -- Special highlight for exception handling keywords
         dimInactive = true,
         terminalColors = true,
@@ -189,7 +189,7 @@ local plugins = {
   -- Telescope
   {
     "nvim-telescope/telescope.nvim",
-    dependencies = { 
+    dependencies = {
       "nvim-lua/plenary.nvim",
       { "nvim-telescope/telescope-fzf-native.nvim", build = "make" }
     },
@@ -201,22 +201,22 @@ local plugins = {
         defaults = {
           mappings = {
             i = {
-              ["<C-n>"] = actions.cycle_history_next,    -- Cycle input history
-              ["<C-p>"] = actions.cycle_history_prev,    -- Cycle input history
-              ["<C-j>"] = actions.move_selection_next,   -- Move to next selection
+              ["<C-n>"] = actions.cycle_history_next,      -- Cycle input history
+              ["<C-p>"] = actions.cycle_history_prev,      -- Cycle input history
+              ["<C-j>"] = actions.move_selection_next,     -- Move to next selection
               ["<C-k>"] = actions.move_selection_previous, -- Move to previous selection
-              ["<C-c>"] = actions.close,                -- Close Telescope
-              ["<CR>"] = actions.select_default,        -- Select default result
+              ["<C-c>"] = actions.close,                   -- Close Telescope
+              ["<CR>"] = actions.select_default,           -- Select default result
             },
             n = {
-              ["q"] = actions.close,                    -- Close in normal mode
+              ["q"] = actions.close, -- Close in normal mode
             },
           },
           layout_strategy = "horizontal",
           layout_config = {
             horizontal = {
               prompt_position = "top",
-              preview_width = 0.6,  -- Use 0.6 for better visibility
+              preview_width = 0.6, -- Use 0.6 for better visibility
             },
           },
           sorting_strategy = "ascending",
@@ -225,23 +225,23 @@ local plugins = {
           winblend = 10,
         },
         pickers = {
-          find_files = { 
-            hidden = true,          -- Include hidden files
-            theme = "dropdown",     -- Use dropdown theme
+          find_files = {
+            hidden = true,      -- Include hidden files
+            theme = "dropdown", -- Use dropdown theme
           },
           live_grep = {
-            theme = "dropdown",     -- Use dropdown theme
+            theme = "dropdown", -- Use dropdown theme
           },
           buffers = {
-            theme = "dropdown",     -- Use dropdown theme
+            theme = "dropdown", -- Use dropdown theme
             initial_mode = "normal",
           },
         },
         extensions = {
           fzf = {
-            fuzzy = true,                     -- Enable fuzzy search
-            override_generic_sorter = true,   -- Override sorter for generic searches
-            override_file_sorter = true,      -- Override sorter for file searches
+            fuzzy = true,                   -- Enable fuzzy search
+            override_generic_sorter = true, -- Override sorter for generic searches
+            override_file_sorter = true,    -- Override sorter for file searches
           },
         },
       })
@@ -266,8 +266,8 @@ local plugins = {
       local null_ls = require("null-ls")
       null_ls.setup({
         sources = {
-          null_ls.builtins.formatting.black, -- Python formatter
-          null_ls.builtins.formatting.isort, -- Python import sorter
+          null_ls.builtins.formatting.black,   -- Python formatter
+          null_ls.builtins.formatting.isort,   -- Python import sorter
           null_ls.builtins.diagnostics.flake8, -- Python linter
         },
       })
@@ -362,20 +362,20 @@ local plugins = {
 
   -- File Explorer (NvimTree)
   {
-    "nvim-tree/nvim-tree.lua", -- Use the updated repository
+    "nvim-tree/nvim-tree.lua",                        -- Use the updated repository
     dependencies = { "nvim-tree/nvim-web-devicons" }, -- Updated dependency path
     config = function()
       require("nvim-tree").setup({
         view = {
-          width = 30, -- Set the width of the tree view
+          width = 30,    -- Set the width of the tree view
           side = "left", -- Display the tree on the left side
         },
         filters = {
           dotfiles = false, -- Do not show dotfiles by default
         },
         renderer = {
-          highlight_git = true, -- Highlight git status in the tree
-          highlight_opened_files = "all", -- Highlight all opened files
+          highlight_git = true,               -- Highlight git status in the tree
+          highlight_opened_files = "all",     -- Highlight all opened files
           indent_markers = { enable = true }, -- Enable indent markers
           icons = {
             show = {
@@ -386,7 +386,7 @@ local plugins = {
           },
         },
         git = {
-          enable = true, -- Enable git integration
+          enable = true,  -- Enable git integration
           ignore = false, -- Show files ignored by git
         },
         actions = {
@@ -415,21 +415,21 @@ local plugins = {
     config = function()
       require("lualine").setup({
         options = {
-          theme = "kanagawa", -- Kanagawa theme for lualine
-          section_separators = "", -- No separators for sections
+          theme = "kanagawa",        -- Kanagawa theme for lualine
+          section_separators = "",   -- No separators for sections
           component_separators = "", -- No separators for components
-          icons_enabled = true, -- Enable icons
-          globalstatus = true, -- Use a global statusline for all splits
+          icons_enabled = true,      -- Enable icons
+          globalstatus = true,       -- Use a global statusline for all splits
         },
         sections = {
-          lualine_a = { "mode" }, -- Show current mode (Normal, Insert, etc.)
-          lualine_b = { "branch" }, -- Show the current Git branch
-          lualine_c = { { "filename", path = 1 } }, -- Show filename with relative path
+          lualine_a = { "mode" },                               -- Show current mode (Normal, Insert, etc.)
+          lualine_b = { "branch" },                             -- Show the current Git branch
+          lualine_c = { { "filename", path = 1 } },             -- Show filename with relative path
           lualine_x = { "encoding", "fileformat", "filetype" }, -- Encoding, format, and type
-          lualine_y = { "progress" }, -- Show cursor progress
-          lualine_z = { "location" }, -- Show line and column location
+          lualine_y = { "progress" },                           -- Show cursor progress
+          lualine_z = { "location" },                           -- Show line and column location
         },
-        inactive_sections = { -- For inactive windows
+        inactive_sections = {                                   -- For inactive windows
           lualine_a = {},
           lualine_b = {},
           lualine_c = { "filename" },
@@ -449,22 +449,22 @@ local plugins = {
     version = "*", -- Ensures compatibility with the latest version
     config = function()
       require("toggleterm").setup({
-        size = 20, -- Terminal height for horizontal mode
+        size = 20,                -- Terminal height for horizontal mode
         open_mapping = [[<C-\>]], -- Keymap to toggle the terminal
-        hide_numbers = true, -- Hide line numbers in terminal buffers
+        hide_numbers = true,      -- Hide line numbers in terminal buffers
         shade_filetypes = {},
-        shade_terminals = true, -- Add a slight shade to terminal background
-        shading_factor = 2, -- Shading intensity (1-3)
-        start_in_insert = true, -- Start terminal in insert mode
-        insert_mappings = true, -- Use the defined mapping in insert mode
+        shade_terminals = true,   -- Add a slight shade to terminal background
+        shading_factor = 2,       -- Shading intensity (1-3)
+        start_in_insert = true,   -- Start terminal in insert mode
+        insert_mappings = true,   -- Use the defined mapping in insert mode
         terminal_mappings = true, -- Enable terminal buffer mappings
-        persist_size = true, -- Remember terminal size
+        persist_size = true,      -- Remember terminal size
         direction = "horizontal", -- Terminal direction: horizontal, vertical, float, or tab
-        close_on_exit = true, -- Close terminal on process exit
-        shell = vim.o.shell, -- Use the default shell
+        close_on_exit = true,     -- Close terminal on process exit
+        shell = vim.o.shell,      -- Use the default shell
         float_opts = {
-          border = "curved", -- Curved border for floating terminals
-          winblend = 10, -- Transparency level
+          border = "curved",      -- Curved border for floating terminals
+          winblend = 10,          -- Transparency level
           highlights = {
             border = "Normal",
             background = "Normal",
@@ -499,8 +499,8 @@ local plugins = {
 
       -- Optional: Additional settings for buffer handling and aesthetics
       vim.g["airline#extensions#whitespace#enabled"] = 1 -- Highlight trailing whitespace
-      vim.g["airline#extensions#branch#enabled"] = 1 -- Show the current Git branch
-      vim.g["airline#extensions#hunks#enabled"] = 1 -- Show Git diff hunks in the status line
+      vim.g["airline#extensions#branch#enabled"] = 1     -- Show the current Git branch
+      vim.g["airline#extensions#hunks#enabled"] = 1      -- Show Git diff hunks in the status line
     end,
   },
 }

@@ -1,4 +1,5 @@
--- Dynamic Python Provider Setup
+-- Function to set Python provider dynamically
+
 local function set_python_host_prog()
   local cwd = vim.fn.getcwd() -- Get the current working directory
 
@@ -24,9 +25,9 @@ local function set_python_host_prog()
   end
 
   -- Check for virtual environments in the project directory
-  local function check_project_venv()
+  local function detect_virtual_env()
     local venv_paths = {
-      cwd .. "/.venv/bin/python",    -- Unix-style virtual environment
+      cwd .. "/.venv/bin/python",         -- Unix-style virtual environment
       cwd .. "/.venv/Scripts/python.exe", -- Windows-style virtual environment
     }
     for _, path in ipairs(venv_paths) do
@@ -36,7 +37,7 @@ local function set_python_host_prog()
     end
 
     -- Detect venv-like folders dynamically
-    local dirs = vim.fn.glob(cwd .. "/*", true, true)
+    local dirs = vim.fn.glob(cwd .. "/*", true, true) -- List all entries in the current directory
     for _, dir in ipairs(dirs) do
       if vim.loop.fs_stat(dir) and vim.loop.fs_stat(dir).type == "directory" then
         local python_path
@@ -53,17 +54,30 @@ local function set_python_host_prog()
     return false
   end
 
-  -- Try to set the Python provider
-  if not check_project_venv() then
-    local system_python = find_valid_system_python()
-    if system_python then
-      set_python_path(system_python)
+  -- Check for Python project markers
+  local function is_python_project()
+    local project_markers = { "requirements.txt", "pyproject.toml", "setup.py", "Pipfile" }
+    for _, marker in ipairs(project_markers) do
+      if vim.loop.fs_stat(cwd .. "/" .. marker) then
+        return true
+      end
     end
+    return detect_virtual_env() -- Check dynamically for any virtual environment
+  end
+
+  -- Try to set the Python provider
+  if is_python_project() then
+    if not detect_virtual_env() then
+      local system_python = find_valid_system_python()
+      if system_python then
+        set_python_path(system_python)
+      end
+    end
+    -- Show final Python provider asynchronously
+    vim.schedule(function()
+      vim.notify("Python provider: " .. (vim.g.python3_host_prog or "None"), vim.log.levels.INFO)
+    end)
   end
 end
 
 set_python_host_prog()
-
-vim.schedule(function()
-  vim.notify("Python provider: " .. (vim.g.python3_host_prog or "None"), vim.log.levels.INFO)
-end)

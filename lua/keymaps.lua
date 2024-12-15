@@ -16,7 +16,8 @@ map("n", "<leader>e", ":NvimTreeToggle<CR>")
 map("n", "<CR>", function() require("nvim-tree.api").node.open.edit() end, { desc = "nvim-tree: Open" })
 map("n", "o", function() require("nvim-tree.api").node.open.edit() end, { desc = "nvim-tree: Open" })
 map("n", "<2-LeftMouse>", function() require("nvim-tree.api").node.open.edit() end, { desc = "nvim-tree: Open" })
-map("n", "<BS>", function() require("nvim-tree.api").node.navigate.parent_close() end, { desc = "nvim-tree: Close Directory" })
+map("n", "<BS>", function() require("nvim-tree.api").node.navigate.parent_close() end,
+{ desc = "nvim-tree: Close Directory" })
 map("n", "q", function() require("nvim-tree.api").tree.close() end, { desc = "nvim-tree: Close" })
 
 -- Diagnostic Keybindings

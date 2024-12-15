@@ -1,4 +1,3 @@
-
 -- LSP Setup (Lua Language Server Fix)
 local lspconfig = require("lspconfig")
 require("mason-lspconfig").setup_handlers({

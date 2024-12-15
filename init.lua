@@ -1,21 +1,24 @@
--- Leader key setup
-vim.g.mapleader = " " -- Space key as leader
+-- 1. Leader Key Setup (Set early to ensure consistent behavior for all keymaps)
+vim.g.mapleader = " "      -- Space key as leader
 vim.g.maplocalleader = " " -- Space key as local leader
 
--- Load Settings
+-- 2. Load Settings (Global options and configurations)
 require("settings")
 
--- Load Plugins
+-- 3. Load Plugins (Plugins must load early for dependencies to work)
 require("plugins")
 
--- Load Keymaps
+-- 4. Load Keymaps (Keymaps after plugins to avoid conflicts with plugin defaults)
 require("keymaps")
 
--- Load LSP Setup (Lua Language Server Fix)
+-- 5. Load Python Provider (Set early so it’s available for LSP and other Python-related plugins)
+require("python_provider")
+
+-- 6. Load LSP Setup (Language server configurations; depends on plugins being loaded)
 require("lspsetup")
 
--- nvim-cmp Setup
+-- 7. nvim-cmp Setup (Autocompletion; depends on LSP and plugins)
 require("nvimcmp")
 
--- Auto commands
+-- 8. Auto commands (Event-driven commands; load last to avoid conflicts)
 require("auto_commands")
