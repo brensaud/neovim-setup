@@ -11,9 +11,6 @@ require("plugins")
 -- 4. Load Keymaps (Keymaps after plugins to avoid conflicts with plugin defaults)
 require("keymaps")
 
--- 5. Load Python Provider (Set early so it’s available for LSP and other Python-related plugins)
-require("python_provider")
-
 -- 6. Load LSP Setup (Language server configurations; depends on plugins being loaded)
 require("lspsetup")
 
